@@ -4,6 +4,8 @@ import { ReduxState } from '../redux/store';
 import * as C from '../redux/constants';
 import ModeScreen from './ModeScreen';
 import SecretScreen from './SecretScreen';
+import ShareCountScreen from './ShareCountScreen';
+import ShowSharesScreen from './ShowSharesScreen';
 
 const ScreenManager = (props: Props) => {
     switch (props.screen) {
@@ -11,6 +13,10 @@ const ScreenManager = (props: Props) => {
             return <ModeScreen />
         case C.SCREEN_SECRET:
             return <SecretScreen />
+        case C.SCREEN_SHARE_COUNTS:
+            return <ShareCountScreen />
+        case C.SCREEN_SHOW_SHARES:
+            return <ShowSharesScreen />
         default:
             return <h1 className="error-message">Screen not implemented: "{props.screen}"</h1>
     }
@@ -29,5 +35,5 @@ const mapStateToProps = (state: ReduxState, ownProps: any) => {
     };
 };
 
-const ReduxScreenManager = connect(mapStateToProps)(ScreenManager);
-export default ReduxScreenManager;
+const ReduxComponent = connect(mapStateToProps)(ScreenManager);
+export default ReduxComponent;

@@ -45,5 +45,5 @@ const mapStateToProps = (state: ReduxState, ownProps: any) => {
     };
 };
 
-const ReduxScreenManager = connect(mapStateToProps)(ModeScreen);
-export default ReduxScreenManager;
+const ReduxComponent = connect(mapStateToProps)(ModeScreen);
+export default ReduxComponent;

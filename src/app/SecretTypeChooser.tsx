@@ -37,5 +37,5 @@ const mapStateToProps = (state: ReduxState, ownProps: any) => {
     };
 };
 
-const ReduxSecretTypeChooser = connect(mapStateToProps)(SecretTypeChooser);
-export default ReduxSecretTypeChooser;
+const ReduxComponent = connect(mapStateToProps)(SecretTypeChooser);
+export default ReduxComponent;

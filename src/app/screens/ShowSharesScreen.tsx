@@ -7,32 +7,18 @@ import NavigationButtons from '../NavigationButtons';
 
 
 const SecretScreen = (props: Props) => {
-    const onChange = (e: any) => setSecret(e.target.value);
-
     return <div>
-        <h1>Secret</h1>
-
-        <label>
-            Type your secret here:
-            <input
-                type="text"
-                autoFocus
-                value={props.secret}
-                onChange={onChange} />
-        </label>
-
+        <h1>TODO</h1>
         <NavigationButtons
-            prev={C.SCREEN_MODE}
-            next={C.SCREEN_SHARE_COUNTS}
-            disableNext={!props.secret} />
+            prev={C.SCREEN_SHARE_COUNTS} />
     </div>
 }
 
 
 interface Props {
     mode: string,
-    secret: string,
-    secretFormat: string,
+    totalCount: number,
+    thresholdCount: number,
 }
 
 // export default FullscreenManager;
