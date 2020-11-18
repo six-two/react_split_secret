@@ -37,3 +37,6 @@ export function setMode(newValue: string) {
   d({ type: C.SET_MODE, payload: newValue });
 }
 
+export function setConstantShareSize(newValue: boolean) {
+  d({ type: C.SET_CONSTANT_SHARE_SIZE, payload: newValue });
+}

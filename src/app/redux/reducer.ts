@@ -44,6 +44,11 @@ export function wrapped_reducer(state: ReduxState, action: Actions.Action): Redu
                 ...state,
                 mode: action.payload as string,
             }
+        case C.SET_CONSTANT_SHARE_SIZE:
+            return {
+                ...state,
+                constant_size_shares: action.payload as boolean,
+            }
         default:
             return state;
     }

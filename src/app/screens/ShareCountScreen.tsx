@@ -2,8 +2,23 @@ import React from "react";
 import { connect } from 'react-redux';
 import { ReduxState } from '../redux/store';
 import * as C from '../redux/constants';
+import { setConstantShareSize } from '../redux/actions';
 import NavigationButtons from '../NavigationButtons';
 import { ThresholdShareInput, TotalShareInput } from '../ShareNumberInputs';
+import RadioBoxContainer, { Option } from '../RadioBoxContainer';
+
+const OPTIONS: Option[] = [
+    {
+        value: "const",
+        title: "Keep shares small",
+        description: "This option is best for big secrets (like files). When you choose this option your data will be encrypted by a random key. Only the key is then split, which generally results in smaller shares. The disadvantage is, that every person with a share also needs to have the encrypted file (unless you upload it somewhere where everyone can access it).",
+    },
+    {
+        value: "var",
+        title: "Store all data in the shares",
+        description: "Recomended for short text secrets (like keys and passwords). When using this option every share is at least as big as the secret, which can be problematic when handling large secrets (like files).",
+    },
+]
 
 
 const SecretScreen = (props: Props) => {
@@ -28,6 +43,17 @@ const SecretScreen = (props: Props) => {
         It has to be at least 2 and can not be bigger than the total share count.
         <ThresholdShareInput />
 
+        {props.mode === C.MODE_ADVANCED &&
+            <>
+                <h2>Share size</h2>
+                <RadioBoxContainer
+                    options={OPTIONS}
+                    selected={props.constantSizeShares ? "const" : "var"}
+                    setSelected={newValue => setConstantShareSize(newValue === "const")} />
+            </>
+        }
+
+
         <NavigationButtons
             prev={C.SCREEN_SECRET}
             next={C.SCREEN_SHOW_SHARES} />
@@ -39,6 +65,7 @@ interface Props {
     mode: string,
     totalCount: number,
     thresholdCount: number,
+    constantSizeShares: boolean,
 }
 
 // export default FullscreenManager;
@@ -48,6 +75,7 @@ const mapStateToProps = (state: ReduxState, ownProps: any) => {
         mode: state.mode,
         totalCount: state.total_share_count,
         thresholdCount: state.threshold_share_count,
+        constantSizeShares: state.constant_size_shares,
     };
 };
 
