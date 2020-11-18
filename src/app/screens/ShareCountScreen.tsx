@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { ReduxState } from '../redux/store';
-import { setSecret } from '../redux/actions';
 import * as C from '../redux/constants';
 import NavigationButtons from '../NavigationButtons';
 import { ThresholdShareInput, TotalShareInput } from '../ShareNumberInputs';
