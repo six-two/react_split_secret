@@ -1,0 +1,23 @@
+export const DEBUG = false;
+
+export const SECRET_TYPE_RAW = "SECRET_TYPE_RAW";
+export const SECRET_TYPE_HEX = "SECRET_TYPE_HEX";
+export const SECRET_TYPE_BASE64 = "SECRET_TYPE_BASE64";
+
+// Modes
+export const MODE_EASIEST = "MODE_EASIEST";
+export const MODE_ADVANCED = "MODE_ADVANCED";
+
+// Action types
+export const SET_SCREEN = "SET_SCREEN";
+export const SET_TOTAL_SHARE_COUNT = "SET_TOTAL_SHARE_COUNT";
+export const SET_THRESHOLD_SHARE_COUNT = "SET_THRESHOLD_SHARE_COUNT";
+export const SET_SECRET = "SET_SECRET";
+export const SET_SECRET_FORMAT = "SET_SECRET_FORMAT";
+export const SET_MODE = "SET_MODE";
+
+// SCREENS
+export const SCREEN_MODE = "SCREEN_MODE";
+export const SCREEN_SECRET = "SCREEN_SECRET";
+export const SCREEN_SHARES = "SCREEN_SHARES";
+export const SCREEN_CONSTANT_SIZE_SHARES = "SCREEN_CONSTANT_SIZE_SHARES";
