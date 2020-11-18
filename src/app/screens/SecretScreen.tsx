@@ -6,29 +6,14 @@ import * as C from '../redux/constants';
 import RadioBoxContainer, { Option } from '../RadioBoxContainer';
 import NavigationButtons from '../NavigationButtons';
 
-const OPTIONS: Option[] = [
-    {
-        value: C.MODE_EASIEST,
-        title: "Simple",
-        description: "Let's the computer make some decisions on its own",
-    },
-    {
-        value: C.MODE_ADVANCED,
-        title: "Advanced",
-        description: "Gives you full control over all the options",
-    },
-]
-
 
 const ModeScreen = (props: Props) => {
     return <div>
-        <h1>Mode</h1>
-        <RadioBoxContainer
-            options={OPTIONS}
-            selected={props.mode}
-            setSelected={setMode} />
+        <h1>Secret</h1>
+        TODO
         <NavigationButtons
-            next={C.SCREEN_SECRET} />
+            prev={C.SCREEN_MODE}
+            next={C.SCREEN_SHARE_COUNTS} />
     </div>
 }
 

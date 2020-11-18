@@ -1,0 +1,13 @@
+.nav-buttons {
+    display: flex;
+    margin: auto;
+    width: 300px;
+
+    .button-goto-screen {
+        width: 130px;
+    }
+
+    .expand {
+        flex: 1;
+    }
+}

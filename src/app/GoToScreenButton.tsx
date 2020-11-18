@@ -6,7 +6,8 @@ const GoToScreenButton = (props: Props) => {
     const onClick = () => setScreen(props.targetScreen);
     return <button
         className="button-goto-screen"
-        onClick={onClick}>
+        onClick={onClick}
+        disabled={props.disabled}>
         {props.label}
     </button>
 };
@@ -15,6 +16,7 @@ const GoToScreenButton = (props: Props) => {
 interface Props {
     label: string,
     targetScreen: string,
+    disabled?: boolean,
 }
 
 export default GoToScreenButton;

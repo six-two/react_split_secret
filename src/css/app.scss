@@ -1,4 +1,9 @@
-@import "create";
+@import "button";
+@import "radio_boxes";
+
+h1, h2, h3 {
+    text-align: center;
+}
 
 .app {
     .error-message {

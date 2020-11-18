@@ -10,7 +10,7 @@ const RadioBox = (props: RadioBoxProps) => {
             checked={props.isSelected}
             onChange={() => props.onSelected(props.option.value)}
         />
-        <div>
+        <div className="wrapper">
             <div className="title">
                 {props.option.title}
             </div>

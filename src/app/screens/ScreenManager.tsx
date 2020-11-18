@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import { ReduxState } from '../redux/store';
 import * as C from '../redux/constants';
 import ModeScreen from './ModeScreen';
-
+import SecretScreen from './SecretScreen';
 
 const ScreenManager = (props: Props) => {
     switch (props.screen) {
         case C.SCREEN_MODE:
             return <ModeScreen />
+        case C.SCREEN_SECRET:
+            return <SecretScreen />
         default:
             return <h1 className="error-message">Screen not implemented: "{props.screen}"</h1>
     }
