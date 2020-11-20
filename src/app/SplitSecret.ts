@@ -6,6 +6,15 @@ import { Share } from './Share';
 
 const secrets = (window as any).secrets;
 
+export const isValidFormat = (secret: string, secret_format: string): boolean => {
+    try {
+        getSecretBytes(secret, secret_format)
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 export const getSecretBytes = (value: string, type: string): string => {
     try {
         switch (type) {
@@ -25,7 +34,7 @@ export const getSecretBytes = (value: string, type: string): string => {
         }
     } catch {
         const msg = `Failed to decode "${value}" as ${type}`;
-        console.error(msg);
+        console.debug(msg);
         throw new Error(msg);
     }
 }

@@ -15,7 +15,7 @@ export interface ReduxState {
 export const FALLBACK_STATE: ReduxState = {
     screen: C.SCREEN_MODE,
     mode: C.MODE_EASIEST,
-    secret: "",
+    secret: "My password is 'monkey123'",
     secret_format: C.SECRET_TYPE_RAW,
     total_share_count: 5,
     threshold_share_count: 3,

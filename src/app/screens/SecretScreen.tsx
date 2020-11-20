@@ -1,19 +1,62 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { ReduxState } from '../redux/store';
-import { setSecret } from '../redux/actions';
+import { setSecret, setSecretFormat } from '../redux/actions';
 import * as C from '../redux/constants';
 import NavigationButtons from '../NavigationButtons';
+import RadioBoxContainer, { Option } from '../RadioBoxContainer';
+import { getSecretBytes, isValidFormat } from '../SplitSecret';
+
+
+const OPTIONS: Option[] = [
+    {
+        value: C.SECRET_TYPE_RAW,
+        title: "Normal text mode",
+        description: "This option is the most flexible, since it allows all normal text characters. If you are not sure which option to choose, select this one.",
+    },
+    {
+        value: C.SECRET_TYPE_HEX,
+        title: "Hexadecimal string",
+        description: "Use this if you have binary data that is encoded as a hex string (using only 0-9 and a-f/A-F).",
+    },
+    {
+        value: C.SECRET_TYPE_BASE64,
+        title: "Base64 string",
+        description: "Use this if you have binary data that is encoded as a base64 string. Only the default JavaScript base64 code (0-9, a-z, A-Z, '+', '/') is accepted.",
+    },
+]
 
 
 const SecretScreen = (props: Props) => {
     const onChange = (e: any) => setSecret(e.target.value);
+    let errorMessage;
+    if (!props.secret) {
+        errorMessage = "The secret field can not be empty!"
+    } else if (!isValidFormat(props.secret, props.secretFormat)) {
+        errorMessage = "The secret does not match the given format. Hint: Using 'Normal text mode' should fix this."
+    }
 
     return <div>
         <h1>Secret</h1>
 
         <label>
-            Type your secret here:
+            {props.mode === C.MODE_ADVANCED &&
+                <>
+                    <h2>Select your secrets format</h2>
+                    <RadioBoxContainer
+                        options={OPTIONS}
+                        selected={props.secretFormat}
+                        setSelected={setSecretFormat} />
+                </>
+            }
+
+            {errorMessage &&
+                <div className="err-msg">
+                    {errorMessage}
+                </div>
+            }
+
+            <h2>Type your secret here</h2>
             <input
                 type="text"
                 autoFocus
@@ -24,7 +67,7 @@ const SecretScreen = (props: Props) => {
         <NavigationButtons
             prev={C.SCREEN_MODE}
             next={C.SCREEN_SHARE_COUNTS}
-            disableNext={!props.secret} />
+            disableNext={!!errorMessage} />
     </div>
 }
 
