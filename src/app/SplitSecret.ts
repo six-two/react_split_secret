@@ -6,7 +6,7 @@ import { Share } from './Share';
 
 const secrets = (window as any).secrets;
 
-const getSecretBytes = (value: string, type: string): string => {
+export const getSecretBytes = (value: string, type: string): string => {
     try {
         switch (type) {
             case C.SECRET_TYPE_RAW:
@@ -40,6 +40,7 @@ export const splitSecret = (state: ReduxState): SplitSecretResult => {
             encrypted_data = sjcl.encrypt(key, secret).toString(); // use it to encrypt the secret
             secret = key; // and then make the key the thing to split
         } else {
+            // convert the secret to a hex string
             secret = secrets.str2hex(secret) as string;
         }
 

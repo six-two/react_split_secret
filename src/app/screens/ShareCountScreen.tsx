@@ -22,7 +22,6 @@ const OPTIONS: Option[] = [
 
 
 const SecretScreen = (props: Props) => {
-    // TODO also put the constant size shares stuff here (advanced only)
     return <div>
         <h1>Shares</h1>
         Your secret will be split into {props.totalCount} shares (think of them as parts).
@@ -53,7 +52,6 @@ const SecretScreen = (props: Props) => {
             </>
         }
 
-
         <NavigationButtons
             prev={C.SCREEN_SECRET}
             next={C.SCREEN_SHOW_SHARES} />
@@ -68,7 +66,6 @@ interface Props {
     constantSizeShares: boolean,
 }
 
-// export default FullscreenManager;
 const mapStateToProps = (state: ReduxState, ownProps: any) => {
     return {
         ...ownProps,
