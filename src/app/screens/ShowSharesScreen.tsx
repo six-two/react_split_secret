@@ -5,6 +5,7 @@ import * as C from '../redux/constants';
 import NavigationButtons from '../NavigationButtons';
 import { splitSecret, SplitSecretResult } from '../SplitSecret';
 import { blockify } from '../Formatter';
+import DownloadAsTextFileButton from '../DownloadAsTextFile';
 
 
 const SecretScreen = (props: Props) => {
@@ -34,12 +35,16 @@ const SecretScreen = (props: Props) => {
                         <li>{blockify(share)}</li>
                     )}
                 </ol>
-            </>
-        }
-        {state.encrypted_data &&
-            <>
-                <h2>Encrypted data</h2>
-                {btoa(state.encrypted_data)}
+                {state.encrypted_data &&
+                    <>
+                        <h2>Encrypted data</h2>
+                        <div className="long-string">
+                            {btoa(state.encrypted_data)}
+                        </div>
+                    </>
+                }
+                <DownloadAsTextFileButton
+                    output={state} />
             </>
         }
         <NavigationButtons
@@ -53,7 +58,6 @@ interface Props {
     state: ReduxState,
 }
 
-// export default FullscreenManager;
 const mapStateToProps = (state: ReduxState, ownProps: any) => {
     return {
         ...ownProps,
