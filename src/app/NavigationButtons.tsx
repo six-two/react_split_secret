@@ -10,8 +10,6 @@ const NavigationButtons = (props: Props) => {
                 label={"Back"}
             />
         }
-        <div className="expand">
-        </div>
         {props.next &&
             <GoToScreenButton
                 targetScreen={props.next}

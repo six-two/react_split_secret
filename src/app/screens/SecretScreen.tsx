@@ -62,7 +62,7 @@ const SecretScreen = (props: Props) => {
                 value={props.secret}
                 onChange={onChange}
                 rows={10}
-                cols={80} />
+                cols={40} />
         </label>
 
         <NavigationButtons
