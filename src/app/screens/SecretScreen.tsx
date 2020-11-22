@@ -5,7 +5,7 @@ import { setSecret, setSecretFormat } from '../redux/actions';
 import * as C from '../redux/constants';
 import NavigationButtons from '../NavigationButtons';
 import RadioBoxContainer, { Option } from '../RadioBoxContainer';
-import { getSecretBytes, isValidFormat } from '../SplitSecret';
+import { isValidFormat } from '../SplitSecret';
 
 
 const OPTIONS: Option[] = [
@@ -57,11 +57,12 @@ const SecretScreen = (props: Props) => {
             }
 
             <h2>Type your secret here</h2>
-            <input
-                type="text"
+            <textarea
                 autoFocus
                 value={props.secret}
-                onChange={onChange} />
+                onChange={onChange}
+                rows={10}
+                cols={80} />
         </label>
 
         <NavigationButtons

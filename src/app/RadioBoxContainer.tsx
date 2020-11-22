@@ -27,8 +27,9 @@ const RadioBox = (props: RadioBoxProps) => {
 const RadioBoxContainer = (props: Props) => {
     return <div>
         <form>
-            {props.options.map(option => {
+            {props.options.map((option, index) => {
                 return <RadioBox
+                    key={index}
                     option={option}
                     isSelected={props.selected === option.value}
                     onSelected={props.setSelected} />

@@ -15,18 +15,25 @@ export const isValidFormat = (secret: string, secret_format: string): boolean =>
     }
 }
 
+export const removeWhitespace = (text: string): string => {
+    return text.replaceAll(/[\s]+/g, "");
+}
+
 export const getSecretBytes = (value: string, type: string): string => {
     try {
         switch (type) {
             case C.SECRET_TYPE_RAW:
                 return value;
             case C.SECRET_TYPE_HEX:
-                // This function just ignores invalid characters: abc === aggggbhhhhhchh === hhhabc$$$
+                value = removeWhitespace(value);
+                // The "secrets.hex2str" function just ignores invalid characters: abc === aggggbhhhhhchh === hhhabc$$$
+                // So we check, that all characters are valid, before we call it.
                 if (!value.match(/^([0-9A-Fa-f]{2})*$/)) {
                     throw new Error(`Failed to decode "${value}" as hex string`);
                 }
                 return secrets.hex2str(value.toLowerCase());
             case C.SECRET_TYPE_BASE64:
+                value = removeWhitespace(value);
                 return atob(value);
             default:
                 console.error(`Unknown secret type: "${type}"`);
