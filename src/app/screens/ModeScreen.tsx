@@ -28,7 +28,7 @@ const ModeScreen = (props: Props) => {
             selected={props.mode}
             setSelected={setMode} />
         <NavigationButtons
-            next={C.SCREEN_SECRET} />
+            next={C.SCREEN_SECRET_TYPE} />
     </div>
 }
 

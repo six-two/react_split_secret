@@ -60,6 +60,18 @@ export function wrapped_reducer(state: ReduxState, action: Actions.Action): Redu
                 ...state,
                 constant_size_shares: action.payload as boolean,
             }
+        case C.SET_SECRET_IS_FILE:
+            return {
+                ...state,
+                secret_is_file: action.payload as boolean,
+            }
+        case C.ON_SECRET_UPLOAD_DONE:
+            return {
+                ...state,
+                secret: action.payload as string,
+                secret_format: C.SECRET_TYPE_RAW,
+                screen: C.SCREEN_SHARE_COUNTS,
+            }
         default:
             return state;
     }

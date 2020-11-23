@@ -27,7 +27,7 @@ const OPTIONS: Option[] = [
 ]
 
 
-const SecretScreen = (props: Props) => {
+const SecretTextScreen = (props: Props) => {
     const onChange = (e: any) => setSecret(e.target.value);
     let errorMessage;
     if (!props.secret) {
@@ -50,23 +50,26 @@ const SecretScreen = (props: Props) => {
                 </>
             }
 
-            {errorMessage &&
-                <div className="err-msg">
-                    {errorMessage}
-                </div>
-            }
-
             <h2>Type your secret here</h2>
             <textarea
                 autoFocus
                 value={props.secret}
                 onChange={onChange}
+                placeholder={`Type your secret here.
+
+Example: My password is 'monkey123'`}
                 rows={10}
                 cols={40} />
         </label>
 
+        {errorMessage &&
+            <div className="err-msg">
+                {errorMessage}
+            </div>
+        }
+
         <NavigationButtons
-            prev={C.SCREEN_MODE}
+            prev={C.SCREEN_SECRET_TYPE}
             next={C.SCREEN_SHARE_COUNTS}
             disableNext={!!errorMessage} />
     </div>
@@ -89,5 +92,5 @@ const mapStateToProps = (state: ReduxState, ownProps: any) => {
     };
 };
 
-const ReduxComponent = connect(mapStateToProps)(SecretScreen);
+const ReduxComponent = connect(mapStateToProps)(SecretTextScreen);
 export default ReduxComponent;

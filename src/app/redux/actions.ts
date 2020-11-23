@@ -40,3 +40,11 @@ export function setMode(newValue: string) {
 export function setConstantShareSize(newValue: boolean) {
   d({ type: C.SET_CONSTANT_SHARE_SIZE, payload: newValue });
 }
+
+export function setSecretIsFile(newValue: boolean) {
+  d({ type: C.SET_SECRET_IS_FILE, payload: newValue });
+}
+
+export function secretFileUploadDone(secretValue: string) {
+  d({ type: C.ON_SECRET_UPLOAD_DONE, payload: secretValue });
+}

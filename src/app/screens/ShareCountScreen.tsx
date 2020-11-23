@@ -21,7 +21,7 @@ const OPTIONS: Option[] = [
 ]
 
 
-const SecretScreen = (props: Props) => {
+const ShareCountScreen = (props: Props) => {
     return <div>
         <h1>Shares</h1>
         Your secret will be split into {props.totalCount} shares (think of them as parts).
@@ -53,7 +53,7 @@ const SecretScreen = (props: Props) => {
         }
 
         <NavigationButtons
-            prev={C.SCREEN_SECRET}
+            prev={C.SCREEN_SECRET_VALUE}
             next={C.SCREEN_SHOW_SHARES} />
     </div >
 }
@@ -76,5 +76,5 @@ const mapStateToProps = (state: ReduxState, ownProps: any) => {
     };
 };
 
-const ReduxComponent = connect(mapStateToProps)(SecretScreen);
+const ReduxComponent = connect(mapStateToProps)(ShareCountScreen);
 export default ReduxComponent;

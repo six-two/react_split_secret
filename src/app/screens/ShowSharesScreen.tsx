@@ -8,7 +8,7 @@ import { blockify } from '../Formatter';
 import DownloadAsTextFileButton from '../DownloadAsTextFile';
 
 
-const SecretScreen = (props: Props) => {
+const ShowSharesScreen = (props: Props) => {
     const defaultState: SplitSecretResult = { error: "Secret is being split. Please wait..." };
     const [state, setState] = useState(defaultState);
 
@@ -31,8 +31,8 @@ const SecretScreen = (props: Props) => {
             <>
                 <h2>Shares</h2>
                 <ol>
-                    {state.shares.map(share =>
-                        <li>{blockify(share)}</li>
+                    {state.shares.map((share, i) =>
+                        <li key={i}>{blockify(share)}</li>
                     )}
                 </ol>
                 {state.encrypted_data &&
@@ -65,5 +65,5 @@ const mapStateToProps = (state: ReduxState, ownProps: any) => {
     };
 };
 
-const ReduxComponent = connect(mapStateToProps)(SecretScreen);
+const ReduxComponent = connect(mapStateToProps)(ShowSharesScreen);
 export default ReduxComponent;
