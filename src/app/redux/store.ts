@@ -1,13 +1,14 @@
 import { createStore } from 'redux';
-import { reducer } from './reducer';
+import reducer from './reducer';
 import * as C from './constants';
 
 export interface ReduxState {
     screen: string,
     mode: string,
-    secret: string,
+    secret_file: string | null, // only used if secret_is_file === true
+    secret_text: string, // only used if secret_is_file === false
     secret_is_file: boolean,
-    secret_format: string,
+    secret_format: string, // only used if secret_is_file === false
     total_share_count: number,
     threshold_share_count: number,
     constant_size_shares: boolean,
@@ -16,7 +17,8 @@ export interface ReduxState {
 export const FALLBACK_STATE: ReduxState = {
     screen: C.SCREEN_MODE,
     mode: C.MODE_EASIEST,
-    secret: "",
+    secret_file: null,
+    secret_text: "",
     secret_is_file: false,
     secret_format: C.SECRET_TYPE_RAW,
     total_share_count: 5,

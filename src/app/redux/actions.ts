@@ -25,8 +25,8 @@ export function setThresholdShareCount(newValue: number) {
   d({ type: C.SET_THRESHOLD_SHARE_COUNT, payload: newValue });
 }
 
-export function setSecret(newValue: string) {
-  d({ type: C.SET_SECRET, payload: newValue });
+export function setSecretText(newValue: string) {
+  d({ type: C.SET_SECRET_TEXT, payload: newValue });
 }
 
 export function setSecretFormat(newValue: string) {

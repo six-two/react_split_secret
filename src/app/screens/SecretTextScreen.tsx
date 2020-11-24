@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { ReduxState } from '../redux/store';
-import { setSecret, setSecretFormat } from '../redux/actions';
+import { setSecretText, setSecretFormat } from '../redux/actions';
 import * as C from '../redux/constants';
 import NavigationButtons from '../NavigationButtons';
 import RadioBoxContainer, { Option } from '../RadioBoxContainer';
@@ -28,7 +28,7 @@ const OPTIONS: Option[] = [
 
 
 const SecretTextScreen = (props: Props) => {
-    const onChange = (e: any) => setSecret(e.target.value);
+    const onChange = (e: any) => setSecretText(e.target.value);
     let errorMessage;
     if (!props.secret) {
         errorMessage = "The secret field can not be empty!"
@@ -87,7 +87,7 @@ const mapStateToProps = (state: ReduxState, ownProps: any) => {
     return {
         ...ownProps,
         mode: state.mode,
-        secret: state.secret,
+        secret: state.secret_text,
         secretFormat: state.secret_format,
     };
 };

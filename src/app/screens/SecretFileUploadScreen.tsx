@@ -8,7 +8,6 @@ import NavigationButtons from '../NavigationButtons';
 
 
 const SecretFileUploadScreen = (props: Props) => {
-    // TODO: set secret and secret format
     let [error, setError] = useState('');
     const onError = (error: any, file: unknown) => setError(`File error: ${error.message}`);
     const onChange = (files: any[]) => {
@@ -26,8 +25,8 @@ const SecretFileUploadScreen = (props: Props) => {
             setError(`Unexpected file count: ${files.length}`);
         }
     };
-    if (!error && !props.secret) {
-        error = "You need to upload a file to continue"
+    if (!error && !props.is_file_uploaded) {
+        error = "You need to upload a file to continue";
     }
 
     return <div>
@@ -55,19 +54,19 @@ const SecretFileUploadScreen = (props: Props) => {
 
         <NavigationButtons
             prev={C.SCREEN_SECRET_TYPE}
-            next={props.secret ? C.SCREEN_SHARE_COUNTS : undefined} />
+            next={props.is_file_uploaded ? C.SCREEN_SHARE_COUNTS : undefined} />
     </div>
 }
 
 
 interface Props {
-    secret: string,
+    is_file_uploaded: boolean,
 }
 
 const mapStateToProps = (state: ReduxState, ownProps: any) => {
     return {
         ...ownProps,
-        secret: state.secret,
+        is_file_uploaded: !!state.secret_file,
     };
 };
 

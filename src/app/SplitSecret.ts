@@ -19,6 +19,12 @@ export const removeWhitespace = (text: string): string => {
     return text.replaceAll(/[\s]+/g, "");
 }
 
+export const getSecretBytesFromState = (state: ReduxState): string => {
+    const secret = state.secret_is_file ? (state.secret_file || "")  : state.secret_text;
+    const secret_format = state.secret_is_file ? C.SECRET_TYPE_RAW : state.secret_format;
+    return getSecretBytes(secret, secret_format);
+}
+
 export const getSecretBytes = (value: string, type: string): string => {
     try {
         switch (type) {
@@ -48,7 +54,7 @@ export const getSecretBytes = (value: string, type: string): string => {
 
 export const splitSecret = (state: ReduxState): SplitSecretResult => {
     try {
-        let secret = getSecretBytes(state.secret, state.secret_format);
+        let secret = getSecretBytesFromState(state);
         let encrypted_data;
 
         if (state.constant_size_shares) {
