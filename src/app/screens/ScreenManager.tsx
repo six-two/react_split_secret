@@ -36,7 +36,6 @@ interface Props {
     secret_is_file: boolean,
 }
 
-// export default FullscreenManager;
 const mapStateToProps = (state: ReduxState, ownProps: any) => {
     return {
         ...ownProps,

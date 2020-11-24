@@ -82,7 +82,6 @@ interface Props {
     secretFormat: string,
 }
 
-// export default FullscreenManager;
 const mapStateToProps = (state: ReduxState, ownProps: any) => {
     return {
         ...ownProps,

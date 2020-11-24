@@ -37,7 +37,6 @@ interface Props {
     mode: string,
 }
 
-// export default FullscreenManager;
 const mapStateToProps = (state: ReduxState, ownProps: any) => {
     return {
         ...ownProps,
