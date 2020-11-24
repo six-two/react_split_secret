@@ -1,7 +1,7 @@
 import sjcl from 'sjcl';
 import { ReduxState } from './redux/store';
 import * as C from './redux/constants';
-import { Share } from './Share';
+import { convertToMyShareFormat } from './CustomShareFormat';
 
 
 const secrets = (window as any).secrets;
@@ -69,7 +69,7 @@ export const splitSecret = (state: ReduxState): SplitSecretResult => {
         // TODO also add secret format to serialized share
         //TODO rework share
         const raw_shares = secrets.share(secret, state.total_share_count, state.threshold_share_count);
-        const shares = raw_shares.map((share: string) => new Share(state.threshold_share_count, share).serialize2hex());
+        const shares = convertToMyShareFormat(state, raw_shares);
 
         return {
             shares,

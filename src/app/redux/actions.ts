@@ -1,7 +1,6 @@
 // Needs to be here to prevent cyclic references
 import store from './store';
 import * as C from './constants';
-import { Share } from '../Share';
 
 function d(action: Action) {
   store.dispatch(action);
@@ -9,7 +8,7 @@ function d(action: Action) {
 
 export interface Action {
   type: string,
-  payload?: string | number | boolean | null | Share,
+  payload?: string | number | boolean | null,
 };
 
 // action creators
