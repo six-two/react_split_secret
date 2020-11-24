@@ -6,7 +6,8 @@ Field | Size | Comment
 ---|---|---
 VERSION | 2 bits | Current value: '00'. Used to keep compatibility when changing the format in the future
 SECRET_FORMAT | 2 bits | How the secret was originally encoded. Values: Raw bytes('00'), Hex string('01'), Base64 string('10')
-RESERVED | 4 bits | Default value: '0000'. Reserved for future use
+CONSTANT_SIZE_SHARES | 1 bit | Indicates that constant size shares were used. The reconstruction of the secret will require additional encrypted data.
+RESERVED | 3 bits | Default value: '000'. Reserved for future use
 THRESHOLD | 8 bits | The number of shares needed to reveal the secret again
 SECRET_JS_SHARE | 4 * `n` bits, with `n` being any natural number | The share I got from the reveal.js library. Flexible length, but is a multiple of 4 bits.
 CHECKSUM | 16 bits | Calculated by turning all data before this field into a hex string, and then getting the CRC16 of that value.

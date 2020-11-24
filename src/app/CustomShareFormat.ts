@@ -39,12 +39,13 @@ const byte2hex = (byte: number) => {
 export const convertToMyShareFormat = (state: ReduxState, secretJsShares: string[]): string[] => {
     const versionBits = '00'; // 2 bits
     const formatBits = FORMAT_BITS.get(state.secret_format); // 2 bits
+    const constantSizeSharesBit = state.constant_size_shares ? '1' : '0';
     
     return secretJsShares.map(shareData => {
         if (!shareData.match(/^[0-9A-Fa-f]+$/)) {
             throw new Error(`[Internal error] SecretJS created a share, which is not a valid hex string: '${shareData}'`);
         }
-        let hexData = bits2hex(versionBits + formatBits, 2); // 1 byte
+        let hexData = bits2hex(versionBits + formatBits + constantSizeSharesBit, 2); // 1 byte
         hexData += byte2hex(state.threshold_share_count); // 1 byte
         hexData += shareData;
         return hexData + crc16(hexData); // 2 bytes
