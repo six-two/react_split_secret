@@ -1,7 +1,7 @@
 import sjcl from 'sjcl';
 import { ReduxState } from './redux/store';
 import * as C from './redux/constants';
-import { convertToMyShareFormat } from './CustomShareFormat';
+import { convertToMyShareFormat, convertToMyEncryptedDataFormat } from './CustomShareFormat';
 
 
 const secrets = (window as any).secrets;
@@ -20,7 +20,7 @@ export const removeWhitespace = (text: string): string => {
 }
 
 export const getSecretBytesFromState = (state: ReduxState): string => {
-    const secret = state.secret_is_file ? (state.secret_file || "")  : state.secret_text;
+    const secret = state.secret_is_file ? (state.secret_file || "") : state.secret_text;
     const secret_format = state.secret_is_file ? C.SECRET_TYPE_RAW : state.secret_format;
     return getSecretBytes(secret, secret_format);
 }
@@ -59,15 +59,14 @@ export const splitSecret = (state: ReduxState): SplitSecretResult => {
 
         if (state.constant_size_shares) {
             const key = secrets.random(256); // a random hex string with 256 chars of entropy
-            encrypted_data = sjcl.encrypt(key, secret).toString(); // use it to encrypt the secret
+            const sjclData = sjcl.encrypt(key, secret).toString();
+            encrypted_data = convertToMyEncryptedDataFormat(sjclData);
             secret = key; // and then make the key the thing to split
         } else {
             // convert the secret to a hex string
             secret = secrets.str2hex(secret) as string;
         }
 
-        // TODO also add secret format to serialized share
-        //TODO rework share
         const raw_shares = secrets.share(secret, state.total_share_count, state.threshold_share_count);
         const shares = convertToMyShareFormat(state, raw_shares);
 

@@ -39,7 +39,7 @@ const ShowSharesScreen = (props: Props) => {
                     <>
                         <h2>Encrypted data</h2>
                         <div className="long-string">
-                            {btoa(state.encrypted_data)}
+                            {state.encrypted_data}
                         </div>
                     </>
                 }
