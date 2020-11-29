@@ -8,7 +8,8 @@ export interface ReduxState {
     secret_file: string | null, // only used if secret_is_file === true
     secret_text: string, // only used if secret_is_file === false
     secret_is_file: boolean,
-    secret_format: string, // only used if secret_is_file === false
+    secret_format: string, // can be autodetect, use real_format instead
+    real_format: string,
     total_share_count: number,
     threshold_share_count: number,
     constant_size_shares: boolean,
@@ -20,7 +21,8 @@ export const FALLBACK_STATE: ReduxState = {
     secret_file: null,
     secret_text: "",
     secret_is_file: false,
-    secret_format: C.SECRET_TYPE_RAW,
+    secret_format: C.SECRET_TYPE_AUTO_DETECT,
+    real_format: C.SECRET_TYPE_UNICODE,
     total_share_count: 5,
     threshold_share_count: 3,
     constant_size_shares: false,

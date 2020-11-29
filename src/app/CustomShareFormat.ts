@@ -2,21 +2,27 @@ import { crc16 } from 'js-crc';
 import { ReduxState } from './redux/store';
 import * as C from './redux/constants';
 import * as Codec from './CodecConverter';
+import { getSecretHexFromState } from './SplitSecret';
 
 
 const FORMAT_BITS = new Map<string, string>();
-FORMAT_BITS.set(C.SECRET_TYPE_RAW, '00');
+FORMAT_BITS.set(C.SECRET_TYPE_UNICODE, '00');
 FORMAT_BITS.set(C.SECRET_TYPE_HEX, '01');
 FORMAT_BITS.set(C.SECRET_TYPE_BASE64, '10');
+FORMAT_BITS.set(C.SECRET_TYPE_ASCII, '11');
 
 const bits2hex = (bits: string, targetedHexLength: number) => {
+    if (!bits.match(/^[01]*$/)) {
+        throw new Error(`Bit string contains invalid characters: "${bits}"`);
+    }
+
     targetedHexLength *= 4;
     // Add trailing zeros, till it can be converted into hex
     while (bits.length < targetedHexLength) {
         bits += "0";
     }
     if (bits.length !== targetedHexLength) {
-        throw new Error(`Bit string too long: Got ${bits.length}, but expected ${targetedHexLength}`);
+        throw new Error(`Bit string too long: Got ${bits.length}, but expected ${targetedHexLength}. Bits: "${bits}"`);
     }
 
     let hex = "";
@@ -29,9 +35,14 @@ const bits2hex = (bits: string, targetedHexLength: number) => {
 
 
 export const convertToMyShareFormat = (state: ReduxState, secretJsShares: string[]): string[] => {
+    const secret = getSecretHexFromState(state);
     const versionBits = '00'; // 2 bits
-    const formatBits = FORMAT_BITS.get(state.secret_format); // 2 bits
+    const formatBits = FORMAT_BITS.get(secret.format); // 2 bits
     const constantSizeSharesBit = state.constant_size_shares ? '1' : '0';
+
+    if (!formatBits) {
+        throw new Error(`No format bit code known for format: "${secret.format}"`)
+    }
 
     return secretJsShares.map(shareData => {
         if (!shareData.match(/^[0-9A-Fa-f]+$/)) {
@@ -43,41 +54,6 @@ export const convertToMyShareFormat = (state: ReduxState, secretJsShares: string
         return hexData + crc16(hexData); // 2 bytes
     });
 };
-
-// // @SOURCE Taken from a comment on https://stackoverflow.com/questions/39460182/decode-base64-to-hexadecimal-string-with-javascript
-// const hexToBase64 = (hex: string): string => {
-//     return btoa(String.fromCharCode(...Array.apply(null, Array(hex.length / 2)).map((_, i) => parseInt(hex[i * 2] + hex[i * 2 + 1], 16))))
-// }
-
-// const hexToBase64 = (hex: string) => {
-//     return btoa(hexToAscii(hex));
-// }
-
-// const hexToAscii = (hex: string) => {
-//     if (hex.length % 2 !== 0) {
-//         throw new Error("hex2ascii needs an hex string with an even length");
-//     }
-//     if (!hex.match(/^[0-9A-Fa-f]+$/)) {
-//         throw new Error(`Invalid characters in hex string: "${hex}"`);
-//     }
-//     const values = [];
-//     for (let i = 0; i < hex.length; i += 2) {
-//         const hexByte = hex.substr(i, 2);
-//         const byteValue = parseInt(hexByte, 16);
-//         values.push(byteValue);
-//     }
-//     return String.fromCharCode(...values);
-// }
-
-// const asciiToHex = (ascii: string) => {
-//     const hexList = [];
-//     for (let i = 0; i < ascii.length; i++) {
-//         const value = ascii.charCodeAt(i);
-//         const hex = byte2hex(value);
-//         hexList.push(hex);
-//     }
-//     return hexList.join("");
-// }
 
 export const convertToMyEncryptedDataFormat = (sjclDataString: string) => {
     const header = "00";

@@ -10,9 +10,19 @@ import { isValidFormat } from '../SplitSecret';
 
 const OPTIONS: Option[] = [
     {
-        value: C.SECRET_TYPE_RAW,
-        title: "Normal text mode",
-        description: "This option is the most flexible, since it allows all normal text characters. If you are not sure which option to choose, select this one.",
+        value: C.SECRET_TYPE_AUTO_DETECT,
+        title: "Autodetect",
+        description: "Automatiacally choose the most efficient format. If you are not sure which option to choose, select this one.",
+    },
+    {
+        value: C.SECRET_TYPE_UNICODE,
+        title: "Unicode text",
+        description: "This option is the most flexible, since it allows all normal text characters, including non standard letters (like Ä), emojis, etc.",
+    },
+    {
+        value: C.SECRET_TYPE_ASCII,
+        title: "ASCII text",
+        description: "Allows the normal english alphabet, including the most common symbols (like !@#{}[])",
     },
     {
         value: C.SECRET_TYPE_HEX,

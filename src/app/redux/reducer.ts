@@ -1,7 +1,7 @@
 import * as Actions from './actions';
 import * as C from './constants';
 import { ReduxState, FALLBACK_STATE } from './store';
-import { getSecretBytesFromState, isValidFormat } from '../SplitSecret';
+import { getSecretHexFromState } from '../SplitSecret';
 
 
 export default function reducer(state: ReduxState | undefined, action: Actions.Action): ReduxState {
@@ -70,19 +70,19 @@ function wrapped_reducer(state: ReduxState, action: Actions.Action): ReduxState 
 const onSecretChanged = (state: ReduxState, updateFormat: boolean, updateShareMode: boolean): ReduxState => {
     if (updateFormat) {
         // check if the format should be updated
-        if (!state.secret_is_file && state.mode === C.MODE_EASIEST) {
+        if (state.mode === C.MODE_EASIEST) {
             // Choose the most efficient way to encode the secret
-            let secret_format;
-            if (isValidFormat(state.secret_text, C.SECRET_TYPE_HEX)) {
-                secret_format = C.SECRET_TYPE_HEX;
-            } else if (isValidFormat(state.secret_text, C.SECRET_TYPE_BASE64)) {
-                secret_format = C.SECRET_TYPE_BASE64;
-            } else {
-                secret_format = C.SECRET_TYPE_RAW;
-            }
+            // let secret_format;
+            // if (isValidFormat(state.secret_text, C.SECRET_TYPE_HEX)) {
+            //     secret_format = C.SECRET_TYPE_HEX;
+            // } else if (isValidFormat(state.secret_text, C.SECRET_TYPE_BASE64)) {
+            //     secret_format = C.SECRET_TYPE_BASE64;
+            // } else {
+            //     secret_format = C.SECRET_TYPE_RAW;
+            // }
             state = {
                 ...state,
-                secret_format,
+                secret_format: C.SECRET_TYPE_AUTO_DETECT,
             };
         }
     }
@@ -90,11 +90,13 @@ const onSecretChanged = (state: ReduxState, updateFormat: boolean, updateShareMo
     if (updateShareMode) {
         try {
             /// Call this method, whenever the secret (in its byte array representation) gets changed
-            const secretLength = getSecretBytesFromState(state).length;
+            
+            const secret = getSecretHexFromState(state)
+            const secretLength = secret.hex.length / 2;
             state = {
                 ...state,
                 constant_size_shares: secretLength >= C.USE_CONST_SIZE_THRESHOLD,
-            }
+            };
         } catch {
             // The user has given us a secret, that does not match the format
         }
