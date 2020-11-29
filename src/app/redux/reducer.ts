@@ -71,15 +71,6 @@ const onSecretChanged = (state: ReduxState, updateFormat: boolean, updateShareMo
     if (updateFormat) {
         // check if the format should be updated
         if (state.mode === C.MODE_EASIEST) {
-            // Choose the most efficient way to encode the secret
-            // let secret_format;
-            // if (isValidFormat(state.secret_text, C.SECRET_TYPE_HEX)) {
-            //     secret_format = C.SECRET_TYPE_HEX;
-            // } else if (isValidFormat(state.secret_text, C.SECRET_TYPE_BASE64)) {
-            //     secret_format = C.SECRET_TYPE_BASE64;
-            // } else {
-            //     secret_format = C.SECRET_TYPE_RAW;
-            // }
             state = {
                 ...state,
                 secret_format: C.SECRET_TYPE_AUTO_DETECT,

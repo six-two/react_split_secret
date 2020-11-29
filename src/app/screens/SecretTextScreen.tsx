@@ -43,7 +43,7 @@ const SecretTextScreen = (props: Props) => {
     if (!props.secret) {
         errorMessage = "The secret field can not be empty!"
     } else if (!isValidFormat(props.secret, props.secretFormat)) {
-        errorMessage = "The secret does not match the given format. Hint: Using 'Normal text mode' should fix this."
+        errorMessage = "The secret does not match the given format. Hint: Using 'Autodetect' or 'Unicode' should fix this."
     }
 
     return <div>
