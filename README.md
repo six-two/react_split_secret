@@ -1,76 +1,40 @@
 # Split secrets
 
-## Share format
+This application uses the [secret.js](https://github.com/grempe/secrets.js) library to split a secret (like a passowrd) into many shares.
+You can then recover the secret from the shares, if you have know at least a certain number of shares.
 
-Field | Size | Comment
----|---|---
-VERSION | 2 bits | Current value: '00'. Used to keep compatibility when changing the format in the future
-SECRET_FORMAT | 2 bits | How the secret was originally encoded. Values: Raw bytes('00'), Hex string('01'), Base64 string('10')
-CONSTANT_SIZE_SHARES | 1 bit | Indicates that constant size shares were used. The reconstruction of the secret will require additional encrypted data.
-RESERVED | 3 bits | Defaults to zeros. Reserved for future use
-THRESHOLD | 8 bits | The number of shares needed to reveal the secret again
-SECRET_JS_SHARE | 4 * `n` bits, with `n` being any natural number | The share I got from the reveal.js library. Flexible length, but is a multiple of 4 bits.
-CHECKSUM | 16 bits | Calculated by turning all data before this field into a hex string, and then getting the CRC16 of that value.
+But app also offers some improvments on top of secret.js:
+- Formats shares in a less errorprone way
+- Detect typos in shares
+- Can encode different types of data efficiently (hex, base64, ascii, and unicode strings).
+- Better handling of big files. Instead of splitting the secret directly (which results in multiple shares, each slightly bigger than the secret), it can encrypt big secrets. Then only the encryption key needs to be split, which can results in *way* smaller shares.
 
-### Formating
-The shares will be output as a hex string.
+## Demo
+1. [Split a secret into shares](https://split.secrets.six-two.dev/)
+2. [Use the shares to reveal the secret again](https://reveal.secrets.six-two.dev/)
 
-The characters can be visually grouped into chunks using whitespaces (or dashes, underscores, etc).
-That should make it easier to input a potentially long code by hand.
-Example (4 chars per block, double space after every 4 blocks):
-`abcdefghijklmnopqrstuvwxyz` => `abcd efgh ijkl mnop  qrst uvwx yz`
+## Example usecase
+Say you want to store the master password for your password manager.
 
-## Encrypted data format
-VERSION | 2 bits | Current value: '00'. Used to keep compatibility when changing the format in the future.
-RESERVED | 6 bits | Defaults to zeros. Reserved for future use
-SJCL_ENCRYPTED | `n` bytes, with `n` being any natural number | The data encrypted by using SJCL.
-CHECKSUM | 16 bits | Calculated by turning all data before this field into a hex string, and then getting the CRC16 of that value.
+You can split it into say 5 shares and set it up, so that you will need any 3 of them to reveal it again.
+Then you can store each of the shares in different places (just pick better choices than I did for this example 😉):
 
+- your email drafts folder
+- on your phone
+- your laptop
+- an old usb stick
+- a postit note in your office
 
-### Formating
-The shares will be output as a base64 string.
+This protects your secret in two ways:
 
+- You can loose some (in this case 2) of the shares, without loosing access to your secret.
+   So if your laptop dies you have one less thing to worry about.
+- If someone gets only a few (in this case 2 or fewer) shares, they will not be able to steal your secret.
+    So even if a hacker gets access to your laptop (and thus probably also to your email), you are ok.
+    At least until he/she hacks into your phone, you plug the usb into your laptop, or he/she manages to see the postit note with the laptops webcam.
 
-## Getting Started with Create React App
+## Documentation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-In the project directory, you can run:
+- `docs/npm-commands.md`: Contains instruction how to build and run this program on your own computer.
+- `docs/format.md`: Describes the structure and encoding of the shares and the encrypted data.
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
