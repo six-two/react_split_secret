@@ -3,8 +3,13 @@ description: A simple way to split a secret into parts, to make it easier to kee
 menu:
   - title: Reveal secret
     url: "https://reveal.secrets.six-two.dev"
+    id: page-nav-reveal
   - title: Source code
     url: "https://github.com/six-two/react_split_secret"
+    id: page-nav-source
   - title: My other projects
     url: "https://projects.six-two.dev/"
+    id: page-nav-projects
 customHtmlHead: '<script src="secrets.min.js" type="text/javascript"></script>'
+pre_build:
+  - template-tools/defaults.py <PROJECT>
